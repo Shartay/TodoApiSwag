@@ -85,14 +85,10 @@ namespace TodoApiSwag.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItem>> PostTodoItem(TodoItem todoItem)
         {
-          if (_context.TodoItems == null)
-          {
-              return Problem("Entity set 'TodoContext.TodoItems'  is null.");
-          }
-            _context.TodoItems.Add(todoItem);
-            await _context.SaveChangesAsync();
+          _context.TodoItems.Add(todoItem);
+            await _context.SaveChangesAsync(); // This is the line that actually saves the data to the database.
 
-            return CreatedAtAction("GetTodoItem", new { id = todoItem.Id }, todoItem);
+            return CreatedAtAction(nameof(GetTodoItem),new { id = todoItem.Id }, todoItem); // This line returns an HTTP 201 status code. HTTP 201 is the standard response for an HTTP POST method that creates a new resource on the server.
         }
 
         // DELETE: api/TodoItems/5
